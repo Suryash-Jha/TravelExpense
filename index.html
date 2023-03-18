@@ -45,6 +45,7 @@
         border-radius: 5px;
         cursor: pointer;
     }
+
     .addtoDb {
         /* position: absolute;
         top: 50%;
@@ -64,12 +65,22 @@
     }
 </style>
 <script>
+
     function setName() {
+        var listOfPeeps = ["sahil", "anurag", "subodh", "suryash", "vishal"]
         if (localStorage.getItem("name") == null) {
 
             var name = prompt("Enter your name");
-            localStorage.setItem("name", name);
-            document.getElementById("loginName").innerHTML = name;
+            for (var i = 0; i < listOfPeeps.length; i++) {
+                if (listOfPeeps[i] == name) {
+                    localStorage.setItem("name", name);
+                    document.getElementById("loginName").innerHTML = name;
+                    break;
+                }
+                else if (i == listOfPeeps.length - 1) {
+                    alert("You are not a part of this group");
+                }
+            }
         }
         else {
             var name = localStorage.getItem("name");
@@ -121,7 +132,7 @@
         if (localStorage.getItem("name") == null) {
             setName();
         }
-        var butt= document.querySelector(".addEle")
+        var butt = document.querySelector(".addEle")
         butt.classList.remove("addEle")
         butt.classList.add("addtoDb")
         var name = localStorage.getItem("name");
