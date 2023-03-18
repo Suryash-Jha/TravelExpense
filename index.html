@@ -52,7 +52,7 @@
         /* left: 50%; */
         height: 10vh;
         /* transform: translate(-50%, -50%); */
-        background-color: #000;
+        background-color: rgb(6, 81, 6);
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -75,6 +75,8 @@
                 if (listOfPeeps[i] == name) {
                     localStorage.setItem("name", name);
                     document.getElementById("loginName").innerHTML = name;
+                    window.location.reload();
+
                     break;
                 }
                 else if (i == listOfPeeps.length - 1) {
@@ -126,6 +128,7 @@
     function logOut() {
         localStorage.removeItem("name");
         setName();
+        window.location.reload();
     }
 
     function addNewEntry() {
