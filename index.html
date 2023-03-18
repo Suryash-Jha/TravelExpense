@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hissab</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .flex-h {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flex-v {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .checkboxField {
+        margin: 2vh;
+        font-size: 6vh;
+    }
+
+    .addEle {
+        /* position: absolute;
+        top: 50%;
+        /* left: 50%; */
+        height: 10vh;
+        /* transform: translate(-50%, -50%); */
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .addtoDb {
+        /* position: absolute;
+        top: 50%;
+        /* left: 50%; */
+        height: 10vh;
+        /* transform: translate(-50%, -50%); */
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input {
+        width: 30vw;
+    }
+</style>
+<script>
+    function setName() {
+        if (localStorage.getItem("name") == null) {
+
+            var name = prompt("Enter your name");
+            localStorage.setItem("name", name);
+            document.getElementById("loginName").innerHTML = name;
+        }
+        else {
+            var name = localStorage.getItem("name");
+            document.getElementById("loginName").innerHTML = name;
+        }
+
+    }
+</script>
+
+<body onload="setName()" style="height: 100vh; width: 100vw; border: 2px solid red;">
+
+    <div class="loginName" style="display: flex; justify-content: space-between;">
+        <h1>Hi, <span id="loginName"></span></h1>
+        <button style="width: 20vw;margin-top: 1vh;" onclick="logOut()">
+            Logout
+        </button>
+    </div>
+    <div class="flex-v" style="margin-top: 2vh;">
+        <div class="expenseName" style="height: 3vh; align-self: flex-start;">
+            <!-- <div class="flex-h"> -->
+
+            <h2>Expense Name</h2>
+            <input type="text" style="width: 80%; height:6vh; font-size: 4vh;" name="expenseName" id="expenseName"
+                placeholder="Expense Name Here">
+            <!-- </div> -->
+
+        </div>
+        <div class="list" style="display: flex; flex-direction: column; height: 78vh; padding-top: 20vh;">
+        </div>
+
+        <div class="addEleButton" style="display: flex;">
+            <button class="addEle" onclick="addNewEntry()">
+                Add New Record
+            </button>
+        </div>
+
+
+    </div>
+</body>
+<script>
+    var listOfPeeps = ["sahil", "anurag", "subodh", "suryash", "vishal"]
+
+    function logOut() {
+        localStorage.removeItem("name");
+        setName();
+    }
+
+    function addNewEntry() {
+        if (localStorage.getItem("name") == null) {
+            setName();
+        }
+        var butt= document.querySelector(".addEle")
+        butt.classList.remove("addEle")
+        butt.classList.add("addtoDb")
+        var name = localStorage.getItem("name");
+        var parentNode = document.querySelector(".list");
+
+        while (parentNode.firstChild) {
+            parentNode.removeChild(parentNode.lastChild);
+        }
+        // parentNode.removeChild(parentNode.lastChild);
+        for (var i = 0; i < listOfPeeps.length; i++) {
+            if (listOfPeeps[i] == name) {
+                continue;
+            }
+            else {
+
+                var divflex = document.createElement("div");
+                divflex.setAttribute("class", "flex-h");
+                var x = document.createElement("input");
+                x.setAttribute("type", "number");
+                x.setAttribute("class", "checkboxField")
+                x.setAttribute("id", listOfPeeps[i]);
+                var label = document.createElement("label");
+                label.setAttribute("for", listOfPeeps[i]);
+                label.setAttribute("class", "checkboxField")
+                label.innerHTML = listOfPeeps[i];
+                divflex.appendChild(label);
+                divflex.appendChild(x);
+                parentNode.appendChild(divflex);
+
+            }
+        }
+        // console.log(listOfPeeps);
+    }
+
+</script>
+
+</html>
