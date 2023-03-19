@@ -46,13 +46,17 @@
         cursor: pointer;
     }
 
+    .butt:active {
+        background-color: rgb(91, 10, 10);
+    }
+
     .addtoDb {
         /* position: absolute;
         top: 50%;
         /* left: 50%; */
         height: 10vh;
         /* transform: translate(-50%, -50%); */
-        background-color: rgb(6, 81, 6);
+        background-color: rgb(53, 195, 53);
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -76,7 +80,6 @@
                     localStorage.setItem("name", name);
                     document.getElementById("loginName").innerHTML = name;
                     window.location.reload();
-
                     break;
                 }
                 else if (i == listOfPeeps.length - 1) {
@@ -92,7 +95,7 @@
     }
 </script>
 
-<body onload="setName()" style="height: 100vh; width: 100vw; border: 2px solid red;">
+<body onload="setName()" style="height: 100vh; width: 100vw;">
     <div class="loginName" style="display: flex; justify-content: space-between;">
         <h1>Hi, <span id="loginName"></span></h1>
         <button style="width: 20vw;margin-top: 1vh;" onclick="logOut()">
@@ -112,9 +115,9 @@
         <div class="list" style="display: flex; flex-direction: column; height: 60vh; padding-top: 20vh;">
         </div>
 
-        <div class="addEleButton" style="display: flex;">
-            <button class="addEle" onclick="addNewEntry()">
-                Add New Record
+        <div class="addEleButton " style="display: flex;">
+            <button class="addEle butt" onclick="addNewEntry()">
+                List of Members
             </button>
         </div>
 
@@ -166,6 +169,7 @@
         }
         butt.classList.add("addtoDb")
         butt.classList.remove("addEle")
+        butt.innerHTML = "Add to Records"
         butt.setAttribute("onclick", "addDataToDb()");
 
         // butt.onclick = "addDataToDb()";
@@ -178,29 +182,37 @@
         var listOfPeeps = ["sahil", "anurag", "subodh", "suryash", "vishal"]
         var name = localStorage.getItem("name");
         var dicti = {};
-
+        const date = new Date();
+        dicti["date"] = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+        dicti["time"] = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        dicti["expenseName"] = expenseName;
+        dicti["name"] = name;
         for (var i = 0; i < listOfPeeps.length; i++) {
             if (listOfPeeps[i] == name) {
+                dicti[listOfPeeps[i]] = "X";
                 continue;
             }
             else {
                 var amount = document.getElementById(listOfPeeps[i]).value;
                 dicti[listOfPeeps[i]] = amount;
-
             }
         }
-        dicti["expense"] = expenseName;
-        const date = new Date();
-        dicti["date"] = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-        dicti["time"] = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-        console.log(dicti)
 
+        console.log(dicti)
         pushToDb(dicti);
 
     }
 
     function pushToDb(dicti) {
 
+        fetch('https://tAquaMediumorchidVoxels.suryashjha.repl.co/pushToHisaabDb', {
+            method: 'POST',
+            body: JSON.stringify(dicti)
+
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error))
     }
 
 </script>
